@@ -46,4 +46,24 @@ public class TasksApiTest {
         .then()
             .statusCode(400);
     }
+
+    @Test
+    public void deveRemoverTarefa() {
+        // Primeiro cria uma tarefa para depois remover
+        Integer id = given()
+            .contentType(ContentType.JSON)
+            .body("{\"task\": \"Tarefa para deletar\", \"dueDate\": \"2126-12-01\"}")
+        .when()
+            .post("/todo")
+        .then()
+            .statusCode(201)
+        .extract().path("id");
+
+        // Agora deleta
+        given()
+        .when()
+            .delete("/todo/" + id)
+        .then()
+            .statusCode(200);
+    }
 }
